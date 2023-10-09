@@ -1,31 +1,45 @@
 package be.ucll.da.appointmentservice.domain.appointment;
 
 import be.ucll.da.appointmentservice.api.model.ApiAppointment;
-import be.ucll.da.appointmentservice.domain.doctor.Doctor;
-import be.ucll.da.appointmentservice.domain.doctor.DoctorRepository;
+import be.ucll.da.appointmentservice.client.doctor.api.DoctorApi;
+import be.ucll.da.appointmentservice.client.doctor.api.model.ApiDoctor;
+import com.netflix.appinfo.InstanceInfo;
+import com.netflix.discovery.EurekaClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.circuitbreaker.CircuitBreakerFactory;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
 public class AppointmentService {
 
-    private final AppointmentRepository appointmentRepository;
-    private final DoctorRepository doctorRepository;
+    private final AppointmentRepository repository;
+    private final DoctorApi doctorApi;
+    private final CircuitBreakerFactory circuitBreakerFactory;
+    private final EurekaClient discoveryClient;
 
     @Autowired
-    public AppointmentService(AppointmentRepository appointmentRepository, DoctorRepository doctorRepository) {
-        this.appointmentRepository = appointmentRepository;
-        this.doctorRepository = doctorRepository;
+    public AppointmentService(AppointmentRepository repository, DoctorApi doctorApi,
+                              CircuitBreakerFactory circuitBreakerFactory, EurekaClient discoveryClient) {
+
+        this.repository = repository;
+        this.doctorApi = doctorApi;
+        this.circuitBreakerFactory = circuitBreakerFactory;
+        this.discoveryClient = discoveryClient;
     }
 
     public void createAppointment(ApiAppointment data) {
-        List<Doctor> doctors = doctorRepository.findAllByFieldOfExpertise(data.getNeededExpertise());
+        InstanceInfo instance = discoveryClient.getNextServerFromEureka("doctor-service", false);
+        doctorApi.getApiClient().setBasePath(instance.getHomePageUrl());
 
-        Doctor selectedDoctor = null;
-        for (Doctor doctor : doctors) {
-            List<Appointment> appointments = appointmentRepository.getAppointmentByDoctorAndPreferredDay(doctor.getId(), data.getPreferredDay());
+        List<ApiDoctor> doctors = circuitBreakerFactory.create("doctorApi")
+                .run(() ->  doctorApi.getDoctors(data.getNeededExpertise()), throwable -> new ArrayList<>());
+
+        ApiDoctor selectedDoctor = null;
+        for (ApiDoctor doctor : doctors) {
+            List<Appointment> appointments = repository.getAppointmentByDoctorAndPreferredDay(doctor.getId(), data.getPreferredDay());
 
             if (appointments.isEmpty()) {
                 selectedDoctor = doctor;
@@ -44,6 +58,6 @@ public class AppointmentService {
                 data.getPreferredDay(),
                 selectedDoctor.getId());
 
-        appointmentRepository.save(appointment);
+        repository.save(appointment);
     }
 }

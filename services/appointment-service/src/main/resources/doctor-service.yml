@@ -87,11 +87,6 @@ components:
         address:
           type: string
           example: 'Naamsestraat 17, 300 Leuven'
-    DoctorCreatedEvent:
-      type: object
-      properties:
-        doctor:
-          $ref: '#/components/schemas/ApiDoctor'
     ApiError:
       type: object
       properties:

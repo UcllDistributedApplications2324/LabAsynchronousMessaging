@@ -10,12 +10,10 @@ import java.util.List;
 public class DoctorService {
 
     private final DoctorRepository repository;
-    private final EventSender eventSender;
 
     @Autowired
-    public DoctorService(DoctorRepository repository, EventSender eventSender) {
+    public DoctorService(DoctorRepository repository) {
         this.repository = repository;
-        this.eventSender = eventSender;
     }
 
     public void createDoctor(ApiDoctor data) {
@@ -28,7 +26,6 @@ public class DoctorService {
         );
 
         repository.save(doctor);
-        eventSender.sendDoctorCreatedEvent(doctor);
     }
 
     public List<Doctor> getDoctors(String fieldOfExpertise) {
