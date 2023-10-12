@@ -3,7 +3,7 @@ version: '3.8'
 services:
   rabbitmq:
     image: rabbitmq:management
-    restart: no
+    restart: "no"
     ports:
       - "5672:5672"       # Port where applications connect
       - "15672:15672"     # Port for management interface, log-in with guest/guest
