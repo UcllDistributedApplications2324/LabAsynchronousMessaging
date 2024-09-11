@@ -1,4 +1,4 @@
-package be.ucll.da.appointmentservice.messaging;
+package be.ucll.da.appointmentservice.adapters.messaging;
 
 import be.ucll.da.appointmentservice.client.doctor.model.DoctorCreatedEvent;
 import be.ucll.da.appointmentservice.domain.doctor.Doctor;

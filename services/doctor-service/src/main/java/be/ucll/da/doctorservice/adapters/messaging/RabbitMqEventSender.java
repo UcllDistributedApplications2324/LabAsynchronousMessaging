@@ -1,4 +1,4 @@
-package be.ucll.da.doctorservice.messaging;
+package be.ucll.da.doctorservice.adapters.messaging;
 
 import be.ucll.da.doctorservice.api.model.ApiDoctor;
 import be.ucll.da.doctorservice.api.model.DoctorCreatedEvent;

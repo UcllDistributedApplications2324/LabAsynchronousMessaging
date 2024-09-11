@@ -1,4 +1,4 @@
-package be.ucll.da.appointmentservice;
+package be.ucll.da.appointmentservice.adapters.messaging;
 
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.context.annotation.Bean;

@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.7.16</version>
+		<version>3.3.3</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>be.ucll.da</groupId>
@@ -15,7 +15,7 @@
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>17</java.version>
-		<spring-cloud.version>2021.0.8</spring-cloud.version>
+		<spring-cloud.version>2023.0.3</spring-cloud.version>
 	</properties>
 
 	<dependencyManagement>
@@ -58,11 +58,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-sleuth</artifactId>
-		</dependency>
-
-		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-amqp</artifactId>
 		</dependency>
@@ -82,17 +77,7 @@
 		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-ui</artifactId>
-			<version>1.7.0</version>
-		</dependency>
-		<dependency>
-			<groupId>io.swagger</groupId>
-			<artifactId>swagger-annotations</artifactId>
-			<version>1.6.11</version>
-		</dependency>
-		<dependency> <!-- For Javax Nullable -->
-			<groupId>com.github.spotbugs</groupId>
-			<artifactId>spotbugs-annotations</artifactId>
-			<version>4.7.3</version>
+			<version>1.8.0</version>
 		</dependency>
 	</dependencies>
 
@@ -104,10 +89,11 @@
 			</plugin>
 
 			<!-- Server Generation Config Based On: https://www.baeldung.com/java-openapi-generator-server -->
+			<!-- Client Generation Config Based On: https://blog.palo-it.com/en/spring-boot-client-and-server-code-generation-using-openapi-3-specs -->
 			<plugin>
 				<groupId>org.openapitools</groupId>
 				<artifactId>openapi-generator-maven-plugin</artifactId>
-				<version>5.3.0</version>
+				<version>7.8.0</version>
 				<executions>
 					<execution>
 						<id>generate-server</id>
@@ -115,7 +101,7 @@
 							<goal>generate</goal>
 						</goals>
 						<configuration>
-							<inputSpec>${project.basedir}/src/main/resources/appointment-service.yml</inputSpec>
+							<inputSpec>${project.basedir}/src/main/resources/appointment-service-api.yml</inputSpec>
 							<generatorName>spring</generatorName>
 							<apiPackage>be.ucll.da.appointmentservice.api</apiPackage>
 							<modelPackage>be.ucll.da.appointmentservice.api.model</modelPackage>
@@ -124,25 +110,17 @@
 							<configOptions>
 								<delegatePattern>true</delegatePattern>
 								<useTags>true</useTags>
+								<useSpringBoot3>true</useSpringBoot3> <!-- javax.* to jakarta.* -->
 							</configOptions>
 						</configuration>
 					</execution>
-				</executions>
-			</plugin>
-
-			<!-- Client Generation Config Based On: https://blog.palo-it.com/en/spring-boot-client-and-server-code-generation-using-openapi-3-specs -->
-			<plugin>
-				<groupId>org.openapitools</groupId>
-				<artifactId>openapi-generator-maven-plugin</artifactId>
-				<version>5.3.0</version>
-				<executions>
 					<execution>
 						<id>generate-client</id>
 						<goals>
 							<goal>generate</goal>
 						</goals>
 						<configuration>
-							<inputSpec>${project.basedir}/src/main/resources/doctor-service.yml</inputSpec>
+							<inputSpec>${project.basedir}/src/main/resources/doctor-service-api.yml</inputSpec>
 							<generatorName>java</generatorName>
 							<library>resttemplate</library>
 							<generateApis>true</generateApis>
@@ -154,7 +132,7 @@
 							<skipValidateSpec>true</skipValidateSpec>
 							<generateSupportingFiles>true</generateSupportingFiles>
 							<apiPackage>be.ucll.da.appointmentservice.client.doctor.api</apiPackage>
-							<modelPackage>be.ucll.da.appointmentservice.client.doctor.api.model</modelPackage>
+							<modelPackage>be.ucll.da.appointmentservice.client.doctor.model</modelPackage>
 
 							<configOptions>
 								<dateLibrary>java8</dateLibrary>
@@ -165,6 +143,7 @@
 								<useOptional>false</useOptional>
 								<serializableModel>true</serializableModel>
 								<openApiNullable>false</openApiNullable>
+								<useJakartaEe>true</useJakartaEe> <!-- javax.* to jakarta.* -->
 							</configOptions>
 						</configuration>
 					</execution>

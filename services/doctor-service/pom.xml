@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.7.16</version>
+		<version>3.3.3</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>be.ucll.da</groupId>
@@ -14,7 +14,7 @@
 	<name>doctor-service</name>
 	<properties>
 		<java.version>17</java.version>
-		<spring-cloud.version>2021.0.8</spring-cloud.version>
+		<spring-cloud.version>2023.0.3</spring-cloud.version>
 	</properties>
 
 	<dependencyManagement>
@@ -58,11 +58,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-sleuth</artifactId>
-		</dependency>
-
-		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-amqp</artifactId>
 		</dependency>
@@ -76,12 +71,7 @@
 		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-ui</artifactId>
-			<version>1.7.0</version>
-		</dependency>
-		<dependency>
-			<groupId>io.swagger</groupId>
-			<artifactId>swagger-annotations</artifactId>
-			<version>1.6.11</version>
+			<version>1.8.0</version>
 		</dependency>
 	</dependencies>
 
@@ -96,14 +86,14 @@
 			<plugin>
 				<groupId>org.openapitools</groupId>
 				<artifactId>openapi-generator-maven-plugin</artifactId>
-				<version>5.3.0</version>
+				<version>7.8.0</version>
 				<executions>
 					<execution>
 						<goals>
 							<goal>generate</goal>
 						</goals>
 						<configuration>
-							<inputSpec>${project.basedir}/src/main/resources/doctor-service.yml</inputSpec>
+							<inputSpec>${project.basedir}/src/main/resources/doctor-service-api.yml</inputSpec>
 							<generatorName>spring</generatorName>
 							<apiPackage>be.ucll.da.doctorservice.api</apiPackage>
 							<modelPackage>be.ucll.da.doctorservice.api.model</modelPackage>
@@ -112,6 +102,7 @@
 							<configOptions>
 								<delegatePattern>true</delegatePattern>
 								<useTags>true</useTags>
+								<useSpringBoot3>true</useSpringBoot3> <!-- javax.* to jakarta.* -->
 							</configOptions>
 						</configuration>
 					</execution>

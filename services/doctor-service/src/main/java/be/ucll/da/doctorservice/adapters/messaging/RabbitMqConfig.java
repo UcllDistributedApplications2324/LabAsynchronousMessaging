@@ -1,4 +1,4 @@
-package be.ucll.da.doctorservice;
+package be.ucll.da.doctorservice.adapters.messaging;
 
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
