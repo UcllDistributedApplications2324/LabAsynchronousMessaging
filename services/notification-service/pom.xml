@@ -86,7 +86,7 @@
 							<inputSpec>${project.basedir}/src/main/resources/doctor-service-api.yml</inputSpec>
 							<generatorName>java</generatorName>
 							<library>resttemplate</library>
-							<generateApis>true</generateApis>
+							<generateApis>false</generateApis>
 							<generateApiDocumentation>false</generateApiDocumentation>
 							<generateApiTests>false</generateApiTests>
 							<generateModels>true</generateModels>
@@ -94,7 +94,6 @@
 							<generateModelTests>false</generateModelTests>
 							<skipValidateSpec>true</skipValidateSpec>
 							<generateSupportingFiles>false</generateSupportingFiles>
-							<generateApis>false</generateApis>
 							<modelPackage>be.ucll.da.notificationservice.client.doctor.api.model</modelPackage>
 
 							<configOptions>
