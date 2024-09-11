@@ -1,4 +1,4 @@
-package be.ucll.da.doctorservice.web;
+package be.ucll.da.doctorservice.adapters.rest.incoming;
 
 import be.ucll.da.doctorservice.api.model.ApiError;
 import be.ucll.da.doctorservice.domain.NoFieldOfExpertiseException;

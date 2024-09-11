@@ -1,6 +1,6 @@
 openapi: 3.0.3
 info:
-  title: Doctor Service v1
+  title: Doctor Service API v1
   description: |-
     API for Doctor Service
   termsOfService: http://swagger.io/terms/

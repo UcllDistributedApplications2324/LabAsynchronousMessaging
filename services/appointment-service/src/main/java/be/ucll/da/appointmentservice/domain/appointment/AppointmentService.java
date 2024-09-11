@@ -2,7 +2,7 @@ package be.ucll.da.appointmentservice.domain.appointment;
 
 import be.ucll.da.appointmentservice.api.model.ApiAppointment;
 import be.ucll.da.appointmentservice.client.doctor.api.DoctorApi;
-import be.ucll.da.appointmentservice.client.doctor.api.model.ApiDoctor;
+import be.ucll.da.appointmentservice.client.doctor.model.ApiDoctor;
 import com.netflix.appinfo.InstanceInfo;
 import com.netflix.discovery.EurekaClient;
 import org.springframework.beans.factory.annotation.Autowired;

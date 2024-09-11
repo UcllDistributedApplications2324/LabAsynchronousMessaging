@@ -1,6 +1,6 @@
 openapi: 3.0.3
 info:
-  title: Appointment Service v1
+  title: Appointment Service API v1
   description: |-
     API for Appointment Service
   termsOfService: http://swagger.io/terms/

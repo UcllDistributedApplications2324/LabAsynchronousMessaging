@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.7.16</version>
+		<version>3.3.3</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>be.ucll.da</groupId>
@@ -15,7 +15,7 @@
 	<description>notification-service</description>
 	<properties>
 		<java.version>17</java.version>
-		<spring-cloud.version>2021.0.8</spring-cloud.version>
+		<spring-cloud.version>2023.0.3</spring-cloud.version>
 	</properties>
 
 	<dependencyManagement>
@@ -43,8 +43,25 @@
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-amqp</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+
+		<!-- Dependencies needed for generated classes -->
+		<dependency>
+			<groupId>org.openapitools</groupId>
+			<artifactId>jackson-databind-nullable</artifactId>
+			<version>0.2.6</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-ui</artifactId>
+			<version>1.8.0</version>
 		</dependency>
 	</dependencies>
 
@@ -53,6 +70,48 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+
+			<!-- Client Generation Config Based On: https://blog.palo-it.com/en/spring-boot-client-and-server-code-generation-using-openapi-3-specs -->
+			<plugin>
+				<groupId>org.openapitools</groupId>
+				<artifactId>openapi-generator-maven-plugin</artifactId>
+				<version>7.8.0</version>
+				<executions>
+					<execution>
+						<id>generate-client</id>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<inputSpec>${project.basedir}/src/main/resources/doctor-service-api.yml</inputSpec>
+							<generatorName>java</generatorName>
+							<library>resttemplate</library>
+							<generateApis>true</generateApis>
+							<generateApiDocumentation>false</generateApiDocumentation>
+							<generateApiTests>false</generateApiTests>
+							<generateModels>true</generateModels>
+							<generateModelDocumentation>false</generateModelDocumentation>
+							<generateModelTests>false</generateModelTests>
+							<skipValidateSpec>true</skipValidateSpec>
+							<generateSupportingFiles>false</generateSupportingFiles>
+							<generateApis>false</generateApis>
+							<modelPackage>be.ucll.da.notificationservice.client.doctor.api.model</modelPackage>
+
+							<configOptions>
+								<dateLibrary>java8</dateLibrary>
+								<java8>true</java8>
+								<useBeanValidation>false</useBeanValidation>
+								<performBeanValidation>false</performBeanValidation>
+								<interfaceOnly>false</interfaceOnly>
+								<useOptional>false</useOptional>
+								<serializableModel>true</serializableModel>
+								<openApiNullable>false</openApiNullable>
+								<useJakartaEe>true</useJakartaEe> <!-- javax.* to jakarta.* -->
+							</configOptions>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
